@@ -1,0 +1,14 @@
+.c-container {
+    border: 1px solid #d8dde6;
+	margin: 10px 0 20px 0;
+	background-color: rgb(255, 255, 255);
+}
+.div {
+	width: 300px;
+	border: 15px solid rgb(242, 250, 242);
+	padding: 50px;
+	margin: 100px;
+	background-color: rgb(235, 233, 232);
+  }
+ 
+ 
