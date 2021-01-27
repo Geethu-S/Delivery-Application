@@ -1,0 +1,242 @@
+<apex:page showHeader="false" sidebar="false" renderAs="pdf" standardStylesheets="false" applyHtmlTag="false">
+
+    <head>
+        <style>
+            body {
+                font-family: sans-serif;
+                font-size: 14px;
+                position: relative;
+            }
+            
+            h1,
+            h2,
+            h3,
+            h4,
+            h5 {
+                margin: 0;
+            }
+            
+            h1 {
+                font-size: 18px;
+            }
+            
+            h2 {
+                font-size: 16px;
+            }
+            
+            h3 {
+                font-size: 14px;
+            }
+            
+            p,
+            td {
+                font-size: 12px;
+            }
+            
+            .invoice__header {
+                display: inline-block;
+                width: 100%;
+                margin: 0px 0 10px 0;
+            }
+            
+            .invoice__title {
+                float: left;
+                width: 80%;
+            }
+            
+            .invoice__number {
+                float: left;
+                width: 20%;
+                text-align: right;
+            }
+            
+            .invoice__number span {
+                display: block;
+            }
+            
+            .invoice__address {
+                width: 50%;
+                float: left;
+            }
+            
+            .invoice__address h3 {
+                margin-bottom: 5px;
+            }
+            
+            .invoice__address span {
+                display: block;
+            }
+            
+            .invoice__address--left {
+                text-align: left;
+                width: 60%;
+            }
+            
+            .invoice__address--right {
+                text-align: right;
+                width: 40%;
+            }
+            
+            .invoice__memo,
+            .invoice__oli {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                float: left;
+                width: 100%;
+            }
+            
+            .invoice__memo {
+                width: 50%;
+            }
+            
+            .memo__header,
+            .oli__header {
+                padding: 10px 15px;
+                border-bottom: 1px solid #ddd;
+                border-top-right-radius: 3px;
+                border-top-left-radius: 3px;
+                background-color: #f2f8fc;
+                border-color: #ddd;
+            }
+            
+            .memo__content {
+                padding: 10px 15px;
+                min-height: 50px;
+            }
+            
+            table {
+                padding: 10px 15px;
+                width: 100%;
+            }
+            
+            .oli__footer {
+                border-top: 1px solid #ddd;
+                background-color: #f2f8fc;
+            }
+            
+            .oli_footer table td {
+                font-size: 20px;
+            }
+            
+            .text-right {
+                text-align: right;
+            }
+            
+            .text-center {
+                text-align: center;
+            }
+            
+            .invoice__footer {
+                width: 100%;
+                float: left;
+            }
+            
+            .invoice__footer img {
+                width: 100%;
+            }
+        </style>
+    </head>
+      <div class="invoice__title">
+            <h1>INVOICE</h1>
+        </div>
+     <div class="invoice__contact">
+        <div class="invoice__address invoice__address--left">
+            <h3>Billed To:123 Secret Street<br></br>Baltimore<br></br>Maryland<br></br>US<br></br>20755</h3>
+         </div>
+         <div class="invoice__address invoice__address--right">
+             <h2>#000658</h2><br></br>
+            <h3>Shipped To:123 Secret Street<br></br>Baltimore<br></br>Maryland<br></br>US<br></br>20755</h3>
+         </div>
+    </div>
+<div class="invoice__oli">
+
+        <div class="oli__header">
+            <h2>Invoice Summary</h2>
+        </div>
+        <div class="oli__table">
+
+            <table>
+                <col style="width:30%"></col>
+                <col style="width:20%"></col>
+                <col style="width:20%"></col>
+                <col style="width:10%"></col>
+                <thead>
+                    <tr>
+                        <td>
+                            <strong>Item</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Price</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Quantity</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Total</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mobile</td>
+                        <td>25,000</td>
+                        <td>  1  </td>
+                        <td>25,000</td>
+                    </tr>
+                    <tr>
+                    <td>Hard Disk</td>
+                        <td>3,000</td>
+                        <td>1</td>
+                        <td>3,000</td>
+                    </tr>
+                </thead>
+</table>
+</div>
+</div>
+ 
+    <div class="invoice__oli">
+        <div class="oli__header">
+            <h2>Payment Summary</h2>
+        </div>
+        <div class="payment__table">
+            <table>
+                <col style="width:30%"></col>
+                <col style="width:20%"></col>
+                <col style="width:20%"></col>
+                <col style="width:10%"></col>
+                <thead>
+                    <tr>
+                        <td>
+                            <strong>Payment Type</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Date</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Discount</strong>
+                        </td>
+                        <td class="text-left">
+                            <strong>Amount</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cash</td>
+                        <td>10/05/2020</td>
+                        <td>  5%  </td>
+                        <td>23,750</td>
+                    </tr>
+                    <tr>
+                    <td>DebitCard</td>
+                        <td>24/05/2020</td>
+                        <td>10%</td>
+                        <td>2,700</td>
+                    </tr>
+                </thead>
+</table>
+</div>
+</div>
+<div class="invoice__address invoice__address--right">
+    <h3>Paid Amount:26,500</h3>
+</div>
+</apex:page>
