@@ -1,41 +1,37 @@
-import { LightningElement, track  } from 'lwc';
+import { LightningElement, api, wire  } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+// Set Delivery object fields
+const NAME_FIELD = 'Delivery__c.Name';
+const LOCATION_LATITUDE_FIELD = 'Delivery__c.Location__Latitude__s';
+const LOCATION_LONGITUDE_FIELD = 'Delivery__c.Location__Longitude__s';
+const deliveryFields = [
+	NAME_FIELD,
+	LOCATION_LATITUDE_FIELD,
+	LOCATION_LONGITUDE_FIELD
+];
 
 export default class CustomerMap extends LightningElement {
-
-@track
-    mapMarkers = [
-        {
-            value: 'Pickup Address',
-            location: {
-                Street:"5350 Campbell Blvd",
-                City: "Baltimore",
-                State:"Maryland",
-                Country: 'US',
-                PostalCode:"21236"
-            },
-
-            icon: 'custom:custom26',
-            title: "Pickup Address",
-        },
-        {
-            value: 'Delivery Address',
-            location: {
-                Street:"123 Secret Street",
-                City: "Baltimore",
-                State:"Maryland",
-                Country: 'US',
-                PostalCode:"20755"
-            },
-
-            icon: 'custom:custom26',
-            title: "Delivery Address",
-        }
-    ];
-    @track markersTitle = "Location";
-
-    @track selectedMarkerValue = 'Pickup Address';
-
-    handleMarkerSelect(event) {
-        this.selectedMarkerValue = event.detail.selectedMarkerValue;
+    @api recordId;
+  name;
+  mapMarkers = [];
+  @wire(getRecord, { recordId: '$recordId', fields: deliveryFields })
+  loadDelivery({ error, data }) {
+    if (error) {
+      // TODO: handle error
+    } else if (data) {
+      // Get Delivery data
+      this.name =  getFieldValue(data, NAME_FIELD);
+      const Latitude = getFieldValue(data, LOCATION_LATITUDE_FIELD);
+      const Longitude = getFieldValue(data, LOCATION_LONGITUDE_FIELD);
+      // Transform delivery data into map markers
+      this.mapMarkers = [{
+        location: { Latitude, Longitude },
+        title: this.name,
+        description: `Coords: ${Latitude}, ${Longitude}`
+      }];
     }
+  }
+  get cardTitle() {
+    return (this.name) ? `${this.name}'s location` : 'Delivery location';
+  }
 }
