@@ -1,11 +1,9 @@
 <template>
-    <div class="slds-m-around_medium">
-    <lightning-map
-        map-markers={mapMarkers}
-        markers-title={markersTitle}
-        onmarkerselect={handleMarkerSelect}
-        selected-marker-value={selectedMarkerValue} >
-
-    </lightning-map>
-</div>
+	<article class="slds-card">
+		<lightning-map
+			map-markers={mapMarkers}
+			zoom-level="11"
+			markers-title="Deliveries">
+		</lightning-map>
+	</article>
 </template>
