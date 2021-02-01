@@ -1,27 +1,5 @@
 <template>
-	<div class="c-container">
-	<div class="slds-m-vertical_medium">
-		<p ><b>Name:</b>John</p>
-		<p><b>Mobile No:</b>9087254130</p><br>
-<h1><b>Pickup Address:</b></h1>
-    <lightning-formatted-address
-        street="123 Secret Street"
-        city="Baltimore"
-        country="US"
-        province="Maryland"
-        postal-code="20755"
-        disabled
-	></lightning-formatted-address><br>
-<h2><b>Delivery Address:</b></h2>
-	<lightning-formatted-address
-	street="5350 Campbell Blvd"
-	city="Suite H"
-	country="US"
-	province="Maryland"
-	postal-code="21236"
-	disabled
-></lightning-formatted-address>
-</div>
-</div>
+    <lightning-record-form record-id={recordId} object-api-name={objectApiName}
+        fields={fields} columns="2" mode="edit" onsubmit={handleSubmit}>
+    </lightning-record-form>
 </template>
-	
