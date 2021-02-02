@@ -1,4 +1,4 @@
-<apex:page showHeader="false" sidebar="false" renderAs="pdf" standardStylesheets="false" applyHtmlTag="false">
+<apex:page showHeader="false" sidebar="false" renderAs="pdf" standardStylesheets="false" applyHtmlTag="false" standardController="Product" extensions="Invoice_Controller">
 
     <head>
         <style>
@@ -38,6 +38,7 @@
                 width: 100%;
                 margin: 0px 0 10px 0;
             }
+            
             
             .invoice__title {
                 float: left;
@@ -139,19 +140,37 @@
             }
         </style>
     </head>
-      <div class="invoice__title">
+    <div class="invoice__header">
+        <div class="invoice__title">
             <h1>INVOICE</h1>
         </div>
-     <div class="invoice__contact">
-        <div class="invoice__address invoice__address--left">
-            <h3>Billed To:123 Secret Street<br></br>Baltimore<br></br>Maryland<br></br>US<br></br>20755</h3>
-         </div>
-         <div class="invoice__address invoice__address--right">
-             <h2>#000658</h2><br></br>
-            <h3>Shipped To:123 Secret Street<br></br>Baltimore<br></br>Maryland<br></br>US<br></br>20755</h3>
-         </div>
+        <div class="invoice__number">
+            <h1>{!Product.Invoice_Number__c}</h1>
+            <span><apex:outputText value="{0,date, MM/dd/YYYY}">
+                <apex:param value="{!Product.CloseDate}" />
+						</apex:outputText></span>
+        </div>
     </div>
-<div class="invoice__oli">
+    <div class="invoice__contact">
+        <div class="invoice__address invoice__address--left">
+            <h3>Billed To:</h3>
+            <span class="address__line">{!Product.Account.Name}</span>
+            <span class="address__line">{!Product.Account.npe01__One2OneContact__r.FirstName} {!Product.Account.npe01__One2OneContact__r.LastName}</span>
+            <span class="address__line">{!Product.Account.BillingStreet}</span>
+            <span class="address__line">{!Product.Account.BillingCity}, {!Product.Account.BillingState} {!Product.Account.BillingPostalCode}</span>
+
+        </div>
+        <div class="invoice__address invoice__address--right">
+            <h3>Shipped To:</h3>
+            <span class="address__line">{!Product.Account.Name}</span>
+            <span class="address__line">{!Product.npsp__Primary_Contact__r.FirstName} {!Product.npsp__Primary_Contact__r.LastName}</span>
+            <apex:outputPanel rendered="{!ISNULL(Product.Account.ShippingStreet)}">
+                <span class="address__line">{!Product.Account.ShippingStreet}</span>
+                <span class="address__line">{!Product.Account.ShippingCity}, {!Product.Account.ShippingState} {!Product.Account.ShippingPostalCode}</span>
+            </apex:outputPanel>
+        </div>
+    </div>
+    <div class="invoice__oli">
 
         <div class="oli__header">
             <h2>Invoice Summary</h2>
@@ -159,84 +178,137 @@
         <div class="oli__table">
 
             <table>
-                <col style="width:30%"></col>
+                <col style="width:40%"></col>
                 <col style="width:20%"></col>
                 <col style="width:20%"></col>
-                <col style="width:10%"></col>
+                <col style="width:20%"></col>
                 <thead>
                     <tr>
                         <td>
                             <strong>Item</strong>
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             <strong>Price</strong>
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             <strong>Quantity</strong>
                         </td>
-                        <td class="text-left">
+                        <td class="text-right">
                             <strong>Total</strong>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Mobile</td>
-                        <td>25,000</td>
-                        <td>  1  </td>
-                        <td>25,000</td>
-                    </tr>
-                    <tr>
-                    <td>Hard Disk</td>
-                        <td>3,000</td>
-                        <td>1</td>
-                        <td>3,000</td>
-                    </tr>
                 </thead>
-</table>
-</div>
-</div>
- 
+                <tbody>
+                    <apex:outputPanel layout="none" rendered="{!AND(Product.Type =='Donation',Product.StageName =='Pledged')}">
+                        <tr>
+                            <td>{!Product.Description}</td>
+                            <td class="text-center">${!Product.Amount}</td>
+                            <td class="text-center">1</td>
+                            <td class="text-right">${!Product.Amount}</td>
+                        </tr>
+                    </apex:outputPanel>
+                    <apex:repeat value="{!olis}" var="oli" id="theRepeater" rendered="{!NOT(AND(Product.Type =='Donation',Product.StageName =='Pledged'))}">
+                        <tr>
+                            <td>{!oli.Name}</td>
+                            <td class="text-center">${!oli.Cost__c}</td>
+                            <td class="text-center">{!oli.Quantity__c}</td>
+                            <td class="text-right">${!oli.Cost_Formula__c}</td>
+                        </tr>
+                    </apex:repeat>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="oli__footer">
+            <table>
+                <col style="width:85%"></col>
+                <col style="width:15%"></col>
+                <tbody>
+                    <tr>
+                        <td class="thick-line text-right">
+                            <strong>Total</strong>
+                        </td>
+                        <td class="thick-line text-right">${!Product.Amount}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="invoice__oli">
         <div class="oli__header">
             <h2>Payment Summary</h2>
         </div>
         <div class="payment__table">
             <table>
-                <col style="width:30%"></col>
+                <col style="width:40%"></col>
                 <col style="width:20%"></col>
                 <col style="width:20%"></col>
-                <col style="width:10%"></col>
+                <col style="width:20%"></col>
                 <thead>
                     <tr>
                         <td>
                             <strong>Payment Type</strong>
                         </td>
-                        <td class="text-left">
+                        <td class="text-center">
                             <strong>Date</strong>
                         </td>
-                        <td class="text-left">
-                            <strong>Discount</strong>
+                        <td class="text-center">
+                            <strong>Reference #</strong>
                         </td>
-                        <td class="text-left">
+                        <td class="text-right">
                             <strong>Amount</strong>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Cash</td>
-                        <td>10/05/2020</td>
-                        <td>  5%  </td>
-                        <td>23,750</td>
-                    </tr>
-                    <tr>
-                    <td>DebitCard</td>
-                        <td>24/05/2020</td>
-                        <td>10%</td>
-                        <td>2,700</td>
-                    </tr>
                 </thead>
-</table>
-</div>
-</div>
-<div class="invoice__address invoice__address--right">
-    <h3>Paid Amount:26,500</h3>
-</div>
+                <tbody>
+                    <apex:repeat value="{!payments}" var="payment" id="paymentrepeater">
+                        <tr>
+                            <td>{!payment.npe01__Payment_Method__c}</td>
+                            <td class="text-center">
+                                <apex:outputText value="{0,date, MM/dd/YYYY}">
+                                    <apex:param value="{!payment.npe01__Payment_Date__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td class="text-center">{!payment.npe01__Check_Reference_Number__c}</td>
+                            <td class="text-right">${!payment.npe01__Payment_Amount__c}</td>
+                        </tr>
+                    </apex:repeat>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="oli__footer">
+            <table>
+                <col style="width:85%"></col>
+                <col style="width:15%"></col>
+                <tbody>
+                    <tr>
+                        <td class="thick-line text-right">
+                            <strong>Total Payments</strong>
+                        </td>
+                        <td class="thick-line text-right">${!Product.npe01__Payments_Made__c}</td>
+                    </tr>
+                    <tr>
+                        <td class="thick-line text-right">
+                            <strong>Balance Due</strong>
+                        </td>
+                        <td class="thick-line text-right">${!Product.npe01__Amount_Outstanding__c}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="invoice__memo">
+        <div class="memo__header">
+            <h3>Instructions/Notes</h3>
+        </div>
+        <div class="memo__content">
+            <p>{!Product.Memo__c}</p>
+        </div>
+    </div>
+    <div class="invoice__footer">
+        <apex:image url="{!$Resource.Footer}" width="100%" />
+    </div>
+
 </apex:page>
