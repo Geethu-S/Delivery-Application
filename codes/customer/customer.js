@@ -1,23 +1,44 @@
-import { LightningElement,api  } from 'lwc';
-import NAME_FIELD from '@salesforce/schema/Delivery.Name';
-import PHONE_NO_FIELD from '@salesforce/schema/Delivery.Phone_No';
-import EMAIL_FIELD from '@salesforce/schema/Delivery.Email';
-import PRODUCT_FIELD from '@salesforce/schema/Delivery.Product';
-import PICKUP_ADDRESS_FIELD from '@salesforce/schema/Delivery.Pickup_Address';
-import DELIVERY_ADDRESS_FIELD from '@salesforce/schema/Delivery.Delivery_Address';
+import { LightningElement } from 'lwc';
+import  NAME_FIELD from '@salesforce/schema/Contact.Name';
+import 	PHONE_FIELD from '@salesforce/schema/Contact.Phone';
+import 	EMAIL_FIELD from '@salesforce/schema/Contact.Email';
+import 	PICKUP_ADDRESS__C_FIELD from '@salesforce/schema/Contact.Pickup_Address__c';
+import  DELIVERY_ADDRESS__C_FIELD from '@salesforce/schema/Contact.Delivery_Address__c';
+
+import CONTACT_OBJECT from '@salesforce/schema/Contact';
 
 export default class Customer extends LightningElement {
-    @api recordId;
-    @api objectApiName;
-    fields = [NAME_FIELD,PHONE_NO_FIELD,EMAIL_FIELD,PRODUCT_FIELD,PICKUP_ADDRESS_FIELD,DELIVERY_ADDRESS_FIELD];
-    handleSubmit(event){
-        //you can change values from here
-        //const fields = event.detail.fields;
-        //fields.Name = 'My Custom  Name'; // modify a field
-        console.log('Delivery detail : ',event.detail.fields);
-        console.log('Delivery name : ',event.detail.fields.name);
-    }
    
+     objectName = CONTACT_OBJECT;
+
+     objectFields = [NAME_FIELD,PHONE_FIELD,EMAIL_FIELD,PICKUP_ADDRESS__C_FIELD , DELIVERY_ADDRESS__C_FIELD];
+
+     handleLoad(event) {
+        console.log(NAME_FIELD);
+        console.log(CONTACT_OBJECT);
+        console.log(event.type);
+        console.log(JSON.stringify(event.detail));
+    }
+
+    handleCancel(event) {
+        console.log(event.type);
+        console.log(JSON.stringify(event.detail));
+    }
+
+    handleSubmit(event) {
+        console.log(event.type);
+        console.log(JSON.stringify(event.detail));
+    }
+ 
+     handleSuccess(event) {
+         console.log(event.type);
+         console.log(JSON.stringify(event.detail));
+     }
+   
+     handleError(event) {
+        console.log(event.type);
+        console.log(JSON.stringify(event.detail));
+    }
 }
     
 
