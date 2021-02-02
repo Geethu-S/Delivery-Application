@@ -1,26 +1,49 @@
-import { LightningElement , api } from 'lwc';
-import PRODUCT_ID_FIELD from '@salesforce/schema/Delivery.Product_Id';
-import PRODUCT_NAME_FIELD from '@salesforce/schema/Delivery.Product_Name';
-import QUANTITY_FIELD from '@salesforce/schema/Delivery.Quantity';
-import PRICE_FIELD from '@salesforce/schema/Delivery.Price';
-import TOTAL_PRICE_FIELD from '@salesforce/schema/Delivery.Total_Price';
-import DRIVER_NAME_FIELD from '@salesforce/schema/Delivery.Driver_Name';
-import DRIVER_CONTACT_NO from '@salesforce/schema/Delivery.Driver_Contact_No';
-import LOCATION_FIELD from '@salesforce/schema/Delivery.Location';
+import { LightningElement  } from 'lwc';
+import NAME_FIELD from '@salesforce/schema/Product2.Name';
+import ProductCode_FIELD from '@salesforce/schema/Product2.ProductCode';
+import PRICE__C_FIELD from '@salesforce/schema/Product2.Price__c';
+import QUANTITY__C_FIELD from '@salesforce/schema/Product2.Quantity__c';
+import TOTAL_PRICE__C_FIELD from '@salesforce/schema/Product2.Total_Price__c';
+import DRIVER_NAME__C_FIELD from '@salesforce/schema/Product2.Driver_Name__c';
+import DRIVER_PHONE_NUMBER__C_FIELD from '@salesforce/schema/Product2.Driver_Phone_Number__c';
+
+import PRODUCT2_OBJECT from '@salesforce/schema/Product2';
+
 export default class CustomerPoduct extends LightningElement {
-    @api recordId;
-    @api objectApiName;
-    fields = [PRODUCT_ID_FIELD, PRODUCT_NAME_FIELD, QUANTITY_FIELD,PRICE_FIELD,TOTAL_PRICE_FIELD,DRIVER_NAME_FIELD,DRIVER_CONTACT_NO,LOCATION_FIELD];    
-    handleSubmit(event){
-        //you can change values from here
-        //const fields = event.detail.fields;
-        //fields.Name = 'My Custom  Name'; // modify a field
-        console.log('Delivery detail : ',event.detail.fields);
-        console.log('Delivery name : ',event.detail.fields.Name);
-    }
-   
+    
+ 
+    objectName = PRODUCT2_OBJECT;
     
 
+    objectFields = [NAME_FIELD,ProductCode_FIELD,PRICE__C_FIELD,QUANTITY__C_FIELD,TOTAL_PRICE__C_FIELD,DRIVER_NAME__C_FIELD,DRIVER_PHONE_NUMBER__C_FIELD];
+
+    handleLoad(event) {
+       console.log(NAME_FIELD);
+       console.log(PRODUCT2_OBJECT);
+       console.log(event.type);
+       console.log(JSON.stringify(event.detail));
+   }
+
+   handleCancel(event) {
+       console.log(event.type);
+       console.log(JSON.stringify(event.detail));
+   }
+
+   handleSubmit(event) {
+       console.log(event.type);
+       console.log(JSON.stringify(event.detail));
+   }
+
+    handleSuccess(event) {
+        console.log(event.type);
+        console.log(JSON.stringify(event.detail));
+    }
+  
+    handleError(event) {
+       console.log(event.type);
+       console.log(JSON.stringify(event.detail));
+   }
 }
+
 
 
