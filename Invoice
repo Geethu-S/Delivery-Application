@@ -253,7 +253,7 @@
                             <strong>Date</strong>
                         </td>
                         <td class="text-center">
-                            <strong>Reference #</strong>
+                            <strong>Discount</strong>
                         </td>
                         <td class="text-right">
                             <strong>Amount</strong>
@@ -269,7 +269,7 @@
                                     <apex:param value="{!payment.npe01__Payment_Date__c}" />
                                 </apex:outputText>
                             </td>
-                            <td class="text-center">{!payment.npe01__Check_Reference_Number__c}</td>
+                            <td class="text-center">{!payment.npe01__Check_Discount__c}</td>
                             <td class="text-right">${!payment.npe01__Payment_Amount__c}</td>
                         </tr>
                     </apex:repeat>
@@ -284,14 +284,12 @@
                 <tbody>
                     <tr>
                         <td class="thick-line text-right">
-                            <strong>Total Payments</strong>
+                            <strong>Paid Amount</strong>
                         </td>
                         <td class="thick-line text-right">${!Product.npe01__Payments_Made__c}</td>
                     </tr>
                     <tr>
-                        <td class="thick-line text-right">
-                            <strong>Balance Due</strong>
-                        </td>
+                     
                         <td class="thick-line text-right">${!Product.npe01__Amount_Outstanding__c}</td>
                     </tr>
                 </tbody>
@@ -299,16 +297,11 @@
         </div>
     </div>
 
-    <div class="invoice__memo">
-        <div class="memo__header">
-            <h3>Instructions/Notes</h3>
-        </div>
+    <div class="invoice__memo"
         <div class="memo__content">
             <p>{!Product.Memo__c}</p>
         </div>
     </div>
-    <div class="invoice__footer">
-        <apex:image url="{!$Resource.Footer}" width="100%" />
-    </div>
+   
 
 </apex:page>
